@@ -22,6 +22,17 @@ class dmSqlBackup extends dmConfigurable
     $this->configure($options);
   }
 
+  public function getBackupDirectory() {
+      return $this->getOption('dir');
+  }
+
+  public function getBackupFiles() {
+      $finder = new dmFilesystem();
+      $files = $finder->findFilesInDir($this->getBackupDirectory());
+      return $files;
+  }
+
+
   public function setLogCallable($callable)
   {
     $this->logCallable = $callable;
@@ -43,6 +54,8 @@ class dmSqlBackup extends dmConfigurable
     $adapter->execute($file);
 
     $this->log('Done.');
+    
+    return $file;
   }
 
   protected function createDir()

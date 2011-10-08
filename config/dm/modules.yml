@@ -1,0 +1,7 @@
+System:
+
+  Backup:
+
+    dmSqlBackup:
+      name:                 Database backup
+      front:                false

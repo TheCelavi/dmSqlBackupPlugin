@@ -5,7 +5,7 @@ parameters:
     mysql:                dmSqlBackupAdapterMysql
   sql_backup.options:
     dir:                  SF_ROOT_DIR/data/dm/backup/sql
-    file_format:          %%db_name%%-%%year%%_%%month%%_%%day%%_%%time%%.sql
+    file_format:          %%db_name%%-%%year%%-%%month%%-%%day%%-%%time%%.sql
 
 services:
 
