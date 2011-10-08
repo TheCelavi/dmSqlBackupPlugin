@@ -45,7 +45,8 @@ class dmSqlBackup extends dmConfigurable
     $adapter = $this->getAdapter($connection);
     
     $infos  = $adapter->getInfos();
-    $file   = $this->getFile($infos);
+    $filename = $this->getFile($infos);
+    $file   = dmOs::join($this->getOption('dir'), $filename);
     
     $this->log(sprintf('About to backup %s@%s to %s', $infos['name'], $infos['host'], $file));
 
@@ -55,7 +56,7 @@ class dmSqlBackup extends dmConfigurable
 
     $this->log('Done.');
     
-    return $file;
+    return $filename;
   }
 
   protected function createDir()
@@ -76,7 +77,7 @@ class dmSqlBackup extends dmConfigurable
       '%time%'    => date('H-i-s')
     ));
 
-    return dmOs::join($this->getOption('dir'), $fileName);
+    return $fileName;
   }
 
   protected function getAdapter(Doctrine_Connection $connection)

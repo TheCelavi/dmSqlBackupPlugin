@@ -47,4 +47,9 @@ $(document).ready(function(){
             var meta = $(this).metadata();
             window.open(meta.link + '?file=' + meta.file);
         });
+        
+        var automatic = function() {
+            if ($('.automatic_download').length) $('.automatic_download').click().remove();
+        };
+        setTimeout(automatic, 2000);
 });
