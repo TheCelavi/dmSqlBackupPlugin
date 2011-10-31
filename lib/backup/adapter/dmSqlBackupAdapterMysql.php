@@ -3,28 +3,19 @@
 class dmSqlBackupAdapterMysql extends dmSqlBackupAdapter
 {
 
-  public function getInfos()
+  public function execute($directoryDestination)
   {
-    return array(
-      'user' => $this->connection->getOption('username'),
-      'pass' => $this->connection->getOption('password'),
-      'host' => preg_replace('/mysql\:host=([-\.\w]+);.*/i', '$1', $this->connection->getOption('dsn')),
-      'name' => preg_replace('/mysql\:host=[-\.\w]+;dbname=([-\.\w]+);.*/i', '$1', $this->connection->getOption('dsn'))
-    );
-  }
 
-  public function execute($file)
-  {
-    $infos = $this->getInfos();
-
-    $command = sprintf('mysqldump --opt -h "%s" -u "%s" -p "%s" "%s" > "%s"',
-      $infos['host'],
-      $infos['user'],
-      $infos['pass'],
-      $infos['name'],
-      $file
+      $fileName = $this->getFileName();
+    $command = sprintf('mysqldump -h "%s" -u "%s" -p"%s" "%s" > "%s"',
+      preg_replace('/mysql\:host=([-\.\w]+);.*/i', '$1', $this->connection->getOption('dsn')),
+      $this->connection->getOption('username'),
+      $this->connection->getOption('password'),
+      preg_replace('/mysql\:host=[-\.\w]+;dbname=([-\.\w]+);.*/i', '$1', $this->connection->getOption('dsn')),
+      dmOs::join($directoryDestination, $fileName)
     );
     
-    return $this->filesystem->execute($command);
+    $success = $this->filesystem->execute($command);
+    return ($success) ? $fileName : false;
   }
 }

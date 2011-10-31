@@ -1,18 +1,19 @@
 <?php
 
-abstract class dmSqlBackupAdapter
-{
-  protected
-  $filesystem,
-  $connection;
+abstract class dmSqlBackupAdapter {
 
-  public function __construct(dmFilesystem $filesystem, Doctrine_Connection $connection)
-  {
-    $this->filesystem = $filesystem;
-    $this->connection = $connection;
-  }
+    protected
+    $filesystem,
+    $connection;
 
-  abstract public function getInfos();
+    public function __construct(dmFilesystem $filesystem, Doctrine_Connection $connection) {
+        $this->filesystem = $filesystem;
+        $this->connection = $connection;
+    }
 
-  abstract public function execute($file);
+    protected function getFileName() {
+        return date('Y-m-d-H-i-s-u') . '.sql';
+    }
+
+    abstract public function execute($directoryDestination);
 }
